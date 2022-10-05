@@ -1,0 +1,413 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+/* Safari syntax */
+:-webkit-full-screen {
+  background-color: white;
+}
+/* IE11 */
+:-ms-fullscreen {
+  background-color: white;
+}
+/* Standard syntax */
+:fullscreen {
+  background-color: white;
+}
+#funscrdiv{
+  background: teal;
+  margin-left:30%;
+  position:absolute;
+  width:150px;
+  padding:10px;
+}
+#fullscreenbtn{
+   width:130px;
+   height:50px;
+}
+#submit{
+    float:right;
+    font-weight:bold;
+    margin-left:5px;
+    display:none;
+}
+#next{
+    font-weight:bold;
+    margin-left:5px;
+    width:75px;
+    height:40px;
+
+}
+#countTime{
+    font-size:20px;
+    float:right;
+    display:none;
+
+    font-weight:bold;
+}
+#header{
+    width:100%;
+    height:10%;
+    padding:20px;
+    border-bottom:1px solid silver;
+
+}
+#container
+{
+          display:none;
+          width:100%;
+          height:90%%;
+
+}
+#left-div{
+    width:80%;
+    float:left;
+    height:90%;
+    border-right:1px solid silver;
+
+}
+#right-div{
+    width:20%;
+    float:left;
+    height:90%;
+}
+#content{
+    padding:10px;
+}
+.qbtn{
+    width:40px;
+    height:40px;
+    margin:5px;
+    float:left;
+    display:none;
+}
+.quesclass{
+    font-size:15px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body onload="myFun()">
+<div id="funscrdiv"><button id="fullscreenbtn" onclick="fullscr()"> Allow Fullscreen</button></div>
+<div id="header">
+    <input id="submit" type="button" class="btn btn-success" value="Finish your test" onclick="Submit()">&nbsp;&nbsp;&nbsp;
+    <span id="countTime" style="text-align:center">00:00</span>
+</div>
+<div id="container">
+    <div id="left-div">
+          <div id="content">
+         </div>
+         <br>
+         <input id="next" type="button" class="btn btn-primary" value="Next" onclick="nextQuestion()"><br>
+    </div>
+    <div id="right-div">
+        <p>Questions</p>
+        <button id="qbtn0" class="qbtn" onclick="goto_question(0)">1</button>
+        <button id="qbtn1" class="qbtn" onclick="goto_question(1)">2</button>
+        <button id="qbtn2" class="qbtn" onclick="goto_question(2)">3</button>
+        <button id="qbtn3" class="qbtn" onclick="goto_question(3)">4</button>
+        <button id="qbtn4" class="qbtn" onclick="goto_question(4)">5</button>
+        <button id="qbtn5" class="qbtn" onclick="goto_question(5)">6</button>
+        <button id="qbtn6" class="qbtn" onclick="goto_question(6)">7</button>
+        <button id="qbtn7" class="qbtn" onclick="goto_question(7)">8</button>
+        <button id="qbtn8" class="qbtn" onclick="goto_question(8)">9</button>
+        <button id="qbtn9" class="qbtn" onclick="goto_question(9)">10</button>
+        <button id="qbtn10" class="qbtn" onclick="goto_question(10)">11</button>
+        <button id="qbtn11" class="qbtn" onclick="goto_question(11)">12</button>
+        <button id="qbtn12" class="qbtn" onclick="goto_question(12)">13</button>
+        <button id="qbtn13" class="qbtn" onclick="goto_question(13)">14</button>
+        <button id="qbtn14" class="qbtn" onclick="goto_question(14)">15</button>
+        <button id="qbtn15" class="qbtn" onclick="goto_question(15)">16</button>
+        <button id="qbtn16" class="qbtn" onclick="goto_question(16)">17</button>
+        <button id="qbtn17" class="qbtn" onclick="goto_question(17)">18</button>
+        <button id="qbtn18" class="qbtn" onclick="goto_question(18)">19</button>
+        <button id="qbtn19" class="qbtn" onclick="goto_question(19)">20</button>
+        <button id="qbtn20" class="qbtn" onclick="goto_question(20)">21</button>
+        <button id="qbtn21" class="qbtn" onclick="goto_question(21)">22</button>
+        <button id="qbtn22" class="qbtn" onclick="goto_question(22)">23</button>
+        <button id="qbtn23" class="qbtn" onclick="goto_question(23)">24</button>
+        <button id="qbtn24" class="qbtn" onclick="goto_question(24)">25</button>
+        <button id="qbtn25" class="qbtn" onclick="goto_question(25)">26</button>
+        <button id="qbtn26" class="qbtn" onclick="goto_question(26)">27</button>
+        <button id="qbtn27" class="qbtn" onclick="goto_question(27)">28</button>
+        <button id="qbtn28" class="qbtn" onclick="goto_question(28)">29</button>
+        <button id="qbtn29" class="qbtn" onclick="goto_question(29)">30</button>
+
+
+
+    </div>
+</div>
+
+<script>
+function fetch_api(method,url,json_data,callback)
+{
+    var response="";
+    var xhr = new XMLHttpRequest();
+    xhr.open(method,url, true);
+    xhr.setRequestHeader("Content-type","application/json charset=utf-8");
+    xhr.onload = function ()
+    {
+        if (xhr.readyState == 4 && xhr.status == 200)
+        {
+           callback(xhr.responseText);
+        }
+    };
+    xhr.send(json_data);
+
+    return response;
+}
+var json_obj;
+var ques;
+var opt1;
+var opt2;
+var opt3;
+var opt4;
+var label1;
+var label2;
+var label3;
+var label4;
+function mycallback(data)
+{
+    json_obj= JSON.parse(data);
+    for(var i=0;i<json_obj.length;i++)
+    {
+        ques=document.createElement("p");
+        ques.innerHTML=(i+1)+". "+json_obj[i][1];
+        ques.setAttribute("id","ques"+i);
+        ques.setAttribute("class", "quesclass");
+        ques.style.display="none";
+
+        opt1 = document.createElement("input");
+        opt1.type="radio";
+        opt1.name="ques"+i;
+        opt1.setAttribute("id","opt"+i+"1");
+        opt1.setAttribute("class", "optclass");
+        label1= document.createElement("label");
+        label1.innerHTML=json_obj[i][2]+'<br>';
+        label1.setAttribute("id","label"+i+"1");
+        label1.setAttribute("class", "labelclass");
+        label1.setAttribute("for","opt"+i+"1");
+        opt1.value=json_obj[i][2];
+        opt1.style.display="none";
+        label1.style.display="none";
+
+        opt2 = document.createElement("input");
+        opt2.type="radio";
+        opt2.name="ques"+i;
+        opt2.setAttribute("id","opt"+i+"2");
+        opt2.setAttribute("class", "optclass");
+        label2= document.createElement("label");
+        label2.innerHTML=json_obj[i][3]+"<br>";
+        label2.setAttribute("id","label"+i+"2");
+        label2.setAttribute("class", "labelclass");
+        label2.setAttribute("for","opt"+i+"2");
+        opt2.value=json_obj[i][3];
+        opt2.style.display="none";
+        label2.style.display="none";
+
+
+        opt3 = document.createElement("input");
+        opt3.type="radio";
+        opt3.name="ques"+i;
+        opt3.setAttribute("id","opt"+i+"3");
+        opt3.setAttribute("class", "optclass");
+        label3= document.createElement("label");
+        label3.innerHTML=json_obj[i][4]+"<br>";
+        label3.setAttribute("id","label"+i+"3");
+        label3.setAttribute("class", "labelclass");
+        label3.setAttribute("for","opt"+i+"3");
+        opt3.value=json_obj[i][4];
+        opt3.style.display="none";
+        label3.style.display="none";
+
+
+        opt4= document.createElement("input");
+        opt4.type="radio";
+        opt4.name="ques"+i;
+        opt4.setAttribute("id","opt"+i+"4");
+        opt4.setAttribute("class", "optclass");
+        label4= document.createElement("label");
+        label4.innerHTML=json_obj[i][5]+"<br>";
+        label4.setAttribute("id","label"+i+"4");
+        label4.setAttribute("class", "labelclass");
+        label4.setAttribute("for","opt"+i+"4");
+        opt4.value=json_obj[i][5];
+        opt4.style.display="none";
+        label4.style.display="none";
+
+        document.getElementById("content").appendChild(ques);
+        document.getElementById("content").appendChild(opt1);
+        document.getElementById("content").appendChild(label1);
+        document.getElementById("content").appendChild(opt2);
+        document.getElementById("content").appendChild(label2);
+        document.getElementById("content").appendChild(opt3);
+        document.getElementById("content").appendChild(label3);
+        document.getElementById("content").appendChild(opt4);
+        document.getElementById("content").appendChild(label4);
+
+        document.getElementById("qbtn"+i).style.display="block";
+    }
+    nextQuestion();
+
+}
+function myFun()
+{
+    url="https://techbasics.pythonanywhere.com/fetchmcq";
+    dict_data={};
+    dict_data.question_type="python";
+    var json = JSON.stringify(dict_data);
+    fetch_api("POST",url,json,mycallback);
+}
+function hide_null()
+{
+    for(var i=0;i<json_obj.length;i++)
+    {
+        if(json_obj[i][2]==null)
+        {
+           document.getElementById("opt"+i+"1").style.display="none";
+           document.getElementById("label"+i+"1").style.display="none";
+        }
+         if(json_obj[i][3]==null)
+        {
+           document.getElementById("opt"+i+"2").style.display="none";
+           document.getElementById("label"+i+"2").style.display="none";
+        }
+        if(json_obj[i][4]==null)
+        {
+           document.getElementById("opt"+i+"3").style.display="none";
+           document.getElementById("label"+i+"3").style.display="none";
+        }
+        if(json_obj[i][5]==null)
+        {
+           document.getElementById("opt"+i+"4").style.display="none";
+           document.getElementById("label"+i+"4").style.display="none";
+        }
+    }
+
+}
+var index=-1;
+function nextQuestion()
+{
+        index=index+1;
+        if(index<json_obj.length)
+        {
+           hide_pre_ques();
+           document.getElementById("ques"+index).style.display="block";
+           document.getElementById("opt"+index+"1").style.display="inline";
+           document.getElementById("opt"+index+"2").style.display="inline";
+           document.getElementById("opt"+index+"3").style.display="inline";
+           document.getElementById("opt"+index+"4").style.display="inline";
+           document.getElementById("label"+index+"1").style.display="inline";
+           document.getElementById("label"+index+"2").style.display="inline";
+           document.getElementById("label"+index+"3").style.display="inline";
+           document.getElementById("label"+index+"4").style.display="inline";
+           hide_null();
+
+    }
+    if(index==json_obj.length-1){ document.getElementById("next").disabled =true;}
+}
+
+function showscore(data)
+{
+    clearInterval(timerId);
+    document.write('<div style="width:100%;height:100%;background:teal"><span style="width:40%;color:white;position:absolute;margin-left:30%;margin-top:200px;font-weight:bold">'+data+'</span><a href="/" style="float:right;color:white;font-weight:bold;text-decoration:none;padding:10px;border:2px groove silver">Exit</a></div>')
+}
+
+array_out=[]
+function Submit(){
+    for(var i=0;i<json_obj.length;i++)
+    {
+       var checked_option = document.querySelector('input[name = ques'+i+']:checked');
+       if(checked_option!= null)
+       {
+
+            var dict_data = {};
+            dict_data.question_id = json_obj[i][0];
+            dict_data.your_answer=checked_option.value;
+            var json = JSON.stringify(dict_data);
+            array_out.push(json);
+
+       }
+
+    }
+    url="https://techbasics.pythonanywhere.com/score";
+     var json = JSON.stringify(array_out);
+    fetch_api("POST",url,json,showscore);
+}
+
+var timerId;
+function fullscr()
+{
+ //start counter first
+ var countdown = json_obj.length/2*60 * 1000;
+ timerId= setInterval(function(){
+  countdown -= 1000;
+  var minutes = Math.floor(countdown / (60 * 1000));
+  var seconds = Math.floor((countdown - (minutes * 60 * 1000)) / 1000);
+  if (countdown < 0)
+  {
+     clearInterval(timerId);
+     alert('time up!');
+     Submit();
+  }
+  else{document.getElementById("countTime").innerText=minutes + " : " + seconds;}
+
+ }, 1000);
+
+//set fullscreen
+ var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+  document.getElementById("submit").style.display="block";
+  document.getElementById("countTime").style.display="block";
+  document.getElementById("container").style.display="block";
+  document.getElementById("funscrdiv").style.display="none";
+
+
+}
+function hide_pre_ques()
+{
+   for(var i=0;i<json_obj.length;i++){
+   document.getElementById("ques"+i).style.display="none";
+   document.getElementById("opt"+i+"1").style.display="none";
+   document.getElementById("opt"+i+"2").style.display="none";
+   document.getElementById("opt"+i+"3").style.display="none";
+   document.getElementById("opt"+i+"4").style.display="none";
+   document.getElementById("label"+i+"1").style.display="none";
+   document.getElementById("label"+i+"2").style.display="none";
+   document.getElementById("label"+i+"3").style.display="none";
+   document.getElementById("label"+i+"4").style.display="none";
+   }
+}
+function goto_question(i)
+{
+
+    hide_pre_ques();
+    document.getElementById("next").disabled =false;
+   document.getElementById("ques"+i).style.display="block";
+   document.getElementById("opt"+i+"1").style.display="inline";
+   document.getElementById("opt"+i+"2").style.display="inline";
+   document.getElementById("opt"+i+"3").style.display="inline";
+   document.getElementById("opt"+i+"4").style.display="inline";
+   document.getElementById("label"+i+"1").style.display="inline";
+   document.getElementById("label"+i+"2").style.display="inline";
+   document.getElementById("label"+i+"3").style.display="inline";
+   document.getElementById("label"+i+"4").style.display="inline";
+   hide_null();
+   index=i;
+
+
+}
+</script>
+</body>
+
+</html>

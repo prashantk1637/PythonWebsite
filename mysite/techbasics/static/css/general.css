@@ -1,0 +1,19 @@
+html,body{
+margin:0;
+padding:0;
+}
+.global-container{}
+
+.login-form {margin:2%;}
+
+.mybtn{
+    width:150px;
+    background-color:teal;
+    color:white;
+    border:1px solid black;
+}
+.mybtn:hover{
+    background-color:#045D5D;
+    color:white;
+
+}

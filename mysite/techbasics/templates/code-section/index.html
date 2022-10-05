@@ -1,0 +1,99 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/static/css/general.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <style>
+     .mybtn:hover{
+    color:white;
+}
+#runningbtn{
+ display:none;
+}
+#svg-id{
+    width:20px;
+    height:20px;
+
+}
+ </style>
+</head>
+<body onload="fun2()">
+{% include 'nav.html' %}
+  <div id="global-container">
+    <div class="login-form">
+                    <div class="form-group">
+                    <label for="Select Language</">Select Language</</label>
+                     <select name="language" id="language" class="form-control form-control-sm">
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C">C</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Write your code</b></span>
+                        <code><textarea rows="15" cols="60" id="code" name="code" class="form-control form-control-sm" placeholder="Start here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required ></textarea></code>
+                    <br><a href="#" class="btn mybtn" id="runbtn" onclick="runApi()">RUN</a>
+                    <span  class="btn mybtn" id="runningbtn"><svg id="svg-id" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                          <path fill="#fff" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml"
+                              attributeName="transform"
+                              type="rotate"
+                              from="0 25 25"
+                              to="360 25 25"
+                              dur="0.6s"
+                         repeatCount="indefinite"/>
+    </path>
+</svg></span>
+                    </div>
+            <div class="form-group">
+                   {% for data in out_data %}
+                          &nbsp;&nbsp;{{ data }}</br>
+                   {% endfor %}
+            </div>
+            <p id="demo"></p>
+    </div>
+
+ </div>
+<script>
+function fun2()
+{
+	var code_val = localStorage.getItem("code_key");
+    document.getElementById("code").innerHTML=code_val;
+	var lang_val = localStorage.getItem("lang_key");
+	if(lang_val===null)
+		{document.getElementById("language").value="Python";}
+	else{ document.getElementById("language").value=lang_val;}
+
+  }
+
+  document.getElementById('code').addEventListener('keydown', function(e) {
+  if (e.key == 'Tab') {
+    e.preventDefault();
+    var start = this.selectionStart;
+    var end = this.selectionEnd;
+
+    // set textarea value to: text before caret + tab + text after caret
+    this.value = this.value.substring(0, start) +'\t'+ this.value.substring(end);
+
+    // put caret at right position again
+    this.selectionStart =
+      this.selectionEnd = start + 1;
+  }
+});
+
+size=screen.width;
+    gc=document.getElementById("global-container");
+    if (size>1000)
+    {
+        gc.style.width="60%"
+        gc.style.marginLeft='20%'
+    }
+</script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
