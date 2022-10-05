@@ -1,0 +1,42 @@
+<html !DOCTYPE="html">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="C, C++, Python,Data Engineering Java, HTML, CSS, JavaScript, SQL, Bootstrap, Programming, Machine Learning, training, quiz, code"/>
+  <meta name="keywords" content="C, C++, Python, Data Engineering, Java, HTML, CSS, JavaScript, SQL, Bootstrap, Programming, Machine Learning, training, quiz, code"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/home/index.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <title>TechBasics</title>
+ </head>
+<body>
+{% include 'nav.html' %}
+<div id="container">
+	<div id="content">
+		    {% for course in courses %}
+		    <a href="{{course.id}}?tutorial={{course.course_fullname}}&lang=en">
+			<div id="item" class="col-xs-6 col-sm-4 col-lg-3">
+    			<p><b>{{course.course_fullname}}</b></p>
+    			<p><span style="font-size:10px">No of Questions:{{course[2]}}</span></p>
+			</div>
+		</a>
+		{% endfor %}
+		</div>
+</div>
+<div id="footer">
+<p style="text-align:center;color:white;">Visit Count:&nbsp;{{pagevisit_count}}</p>
+</div>
+</body>
+<script>
+    if(screen.width>500)
+    {
+        document.getElementById("content").style.marginLeft="10%";
+         document.getElementById("content").style.marginRight="10%";
+    }
+    else{
+         document.getElementById("content").style.width="100%";
+    }
+    </script>
+</html>
+

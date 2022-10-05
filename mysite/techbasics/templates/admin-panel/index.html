@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/static/css/general.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+#table-list{margin-left:20px; }
+.mybtn:hover{
+    color:white;
+}
+</style>
+<body onload="fun2()">
+{% include 'nav.html' %}
+<div class="global-container">
+        <div id="table-list">
+            <b>Tables:</b><br>
+            {% for row in table_list %}
+                {% for col in row %}
+                    {{col|replace('CREATE TABLE','')|replace('VARCHAR','')|replace('varchar','')|replace('INTEGER','')|replace('int','')|replace('NOT NULL','')|replace('not null','')|replace('PRIMARY KEY','')}}
+                {% endfor %}<br>
+            {% endfor %}
+        </div>
+
+         <div class="login-form">
+            <form action="/run-sql" method="post">
+                <div class="form-group">
+                    <label for="SQL">RUN SQL</label>
+                    <textarea rows="10" cols="40" id="sql" name="sql" class="form-control form-control-sm" placeholder="SELECT * FROM sqlite_master where type='table'" autocomplete="off" required ></textarea>
+                </div>
+                <button type="submit" class="btn mybtn" onclick="fun1()">Execute</button>
+            </form>
+                {% for data in sql_data %}
+                         {{ data }}</br>
+                {% endfor %}
+         </div>
+</div>
+<script>
+var code_inp=""
+function fun1()
+{
+    code_inp=document.getElementById("sql").value;
+    localStorage.setItem("sql_key", code_inp);
+}
+function fun2()
+{
+	var code_val = localStorage.getItem("sql_key");
+    document.getElementById("sql").innerHTML=code_val;
+
+  }
+</script>
+</body>
+</html>

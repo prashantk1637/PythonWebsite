@@ -1,0 +1,218 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/static/css/home/index.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="/static/js/app.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+body{
+margin:0;
+padding:0;
+background-color:#f5f5f5;
+}
+#header{
+height:100px;
+width:100%;
+float:left;
+background:black;
+}
+#leftDivBtn{
+     display:none;
+     font-size:25px;
+     position:fixed;
+     margin-left:94%;
+}
+#left-div{
+    width:20%;
+    float:left;
+    max-height: 70%;
+    position:fixed;
+    overflow-y: scroll;
+    padding:10px;
+}
+#left-div h3{
+     text-align:center;
+}
+
+#center-div{
+    float:left;
+    width:60%;
+    min-height:100%;
+
+}
+#right-div{
+     width:20%;
+    float:left;
+    margin-left:80%;
+    max-height: 70%;
+    position:fixed;
+    overflow-y: scroll;
+    padding:10px;
+    text-align:center;
+
+}
+#right-div a{
+    background:teal;
+    padding:10px;
+    color:white;
+}
+
+.container{
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+    background:white;
+    float:left;
+}
+.question{
+
+}
+.mark-as-read
+{
+    text-align:right;
+    font-style:italic;
+    font-size:12px;
+}
+.answer{
+
+    padding-left:22px;
+}
+.answer code{
+    background:white;
+}
+.tags{
+    word-wrap: break-word;
+}
+.single-tag{
+    margin:2px;
+    border-radius:1px;
+
+}
+.hint-icon
+{
+    width:10px;
+    height:10px;
+    background:white;
+    font-style:bold;
+    border-radius:10px;
+    border:2px groove silver;
+}
+.hint-icon a{
+    text-decoration:none;
+}
+#hint{
+    width:100%;
+    height:100%;
+    display:none;
+    background:white;
+}
+#footer{
+width:100%;
+height:100px;
+padding:10px;
+background:teal;
+border: 1px solid black;
+text-align:center;
+color:white;
+
+
+}
+#footer a{
+    color:white;
+}
+#course_title{
+   width:100%;
+   font-size:38px;
+   padding:2px;
+    text-align:center;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+</style>
+</head>
+<body onload="loadBody()">
+{% include 'nav.html' %}
+
+<div id="globalContainer">
+
+        <a id="leftDivBtn"onclick="show_left_div()">&#9193;</a>
+
+
+    <div id="left-div">
+    <h3>Question List</h3>
+    <ul>
+    {% for question in questions %}
+    <li><a href="#{{loop.index}}">{{ question.question }}</a></li>
+     {% endfor %}
+     </ul>
+    </div>
+
+    <div id="center-div">
+        <p id="course_title"><b>{{tutorial_name[0].course_fullname}}</b></p>
+        {% for question in questions %}
+           <div class="container">
+                   <div class="question">
+                       <b id="{{loop.index}}">{{loop.index}}.&nbsp;{{ question.question }}</b>
+                    </div>
+                   <div class="answer">
+                       {{question.answer|replace("\r\n", "<br>")|replace("<code>","<pre>")|replace("</code>","</pre>")|replace("<keyword>","<code>")|replace("</keyword>","</code>")|safe }}
+                   </div>
+                    <div class="tags">
+                    {% set dup=[] %}
+                   {% set tag_list =question.tags.split('#') %}
+                    {% for tag in tag_list if tag not in dup %}
+                    {{dup.append(tag)|default("", True)}}
+                    <span class="single-tag"><a href="/search?q={{tag}}"></a></span>&nbsp;
+                    {% endfor %}
+                    </div>
+
+
+                   {% if session['user'] and session['user_type']=='admin' %}
+                       <a href="#" class="edit" onclick="edit_data({{loop.index}})">Edit</a>
+                       <a href="#" class="update" onclick="send_data({{loop.index}}+':'+{{question.id}})">Update</a><span id="update-status"></span>
+                   {% endif %}
+           <p class="mark-as-read">Mark as read<input type="checkbox" class="checkboxcls" onclick="check_uncheck({{loop.index}})"/></p>
+           </div>
+        {% endfor %}
+        {% if kiwi_data is defined %}
+        {% for key,value in kiwi_data.iterrows() %}
+           <div class="container">
+                   <div class="question">
+                       <b>Letter No.&nbsp;{{loop.index}}:&nbsp;{{ value.category }}</b>
+                    </div>
+                   <div class="answer">
+                       {{value.content|replace("\n", "<br>")|safe }}
+                   </div><br>
+                   ~From&nbsp;<i>{{value.author|replace("\n", "<br>")|safe }}</i> &nbsp;&nbsp;&nbsp;time:&nbsp;{{value.time}}
+           </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div id="right-div">
+        <h3>Trending Topics</h3>
+        <a href="https://techbasics.pythonanywhere.com/13">Scala</a>
+        <a href="https://techbasics.pythonanywhere.com/25">Snowflake</a>
+        <a href="https://techbasics.pythonanywhere.com/15">AWS</a>
+    </div>
+
+</div>
+
+<div id="footer">
+<p>@TechBasics</p>
+</div>
+<script>
+    function hint(){
+        document.getElementById("hint").style.display="block";
+    }
+    function hide(){
+        document.getElementById("hint").style.display="none";
+    }
+</script>
+ </body>
+</html>

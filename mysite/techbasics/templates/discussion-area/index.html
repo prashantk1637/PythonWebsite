@@ -1,0 +1,95 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+body{
+margin:0;
+padding:0;
+}
+#header{
+height:100px;
+width:100%;
+float:left;
+background:black;
+}
+#header h3{
+ color:white;
+}
+#container{
+    width:100%;
+    background: silver;
+    height: 70%;
+    overflow: auto;
+    text-align:justify;
+
+}
+#item{
+    width:100%;
+    background:white;
+    padding:10px;
+    float:left;
+    margin-bottom:5px;
+    border:2px;
+}
+
+#bottom{
+    width:100%;
+    height:50px;
+    background:white;
+    float:left;
+    position: absolute; bottom: 0px;
+    background:white;
+    padding-left:5px;
+}
+#btn {
+    height:42px;
+    background:green;
+    color:white;
+    font-style:bold;
+}
+</style>
+<script>
+function updateScroll()
+{
+    var element = document.getElementById("container");
+    element.scrollTop = element.scrollHeight;
+}
+</script>
+   </head>
+   <body onload="updateScroll()">
+{% include 'nav.html' %}
+<div id="container">
+        {% for post in posts %}
+           <div id="item" class="col-xs-6 col-sm-4 col-lg-3">
+               <p><span style="float:left"><b>{{ post.name }}</b></span><span style="float:right"><i>{{ post.time }}</i></span></p>
+               <br>
+               <p>{{ post.post|safe }}</p>
+           </div>
+       {% endfor %}
+       </div>
+
+       <div id="bottom" class="col-xs-6 col-sm-4 col-lg-3">
+            <form action="/add_post" method="post">
+                <table>
+                <tr>
+                <input type="hidden"  id="nameID" name="name" />
+                <td><textarea rows="2" cols="35" name="post" placeholder= "Comment..." autocomplete="off" required ></textarea></td>
+                <td><input type="submit" id="btn" value="POST" onclick="GetName()"></td>
+                </tr>
+                </table>
+            </form>
+
+      </div>
+<script>
+function GetName()
+{
+    var name=document.getElementById("nick-name").value;
+    document.getElementById("nameID").value=name;
+}
+</script>
+</body>
+</html>

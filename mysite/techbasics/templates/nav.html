@@ -1,0 +1,92 @@
+<style>
+.navbar-inverse{background:teal;border-color:black;}
+.navbar-nav>li:hover{background:#045D5D;}
+.navbar-inverse .navbar-brand{color:white;}
+#myNavbar>ul>li>a{color:white;}
+
+#search-box{
+    margin-top:10px;
+}
+#search-input{
+    width:0;
+    padding:0;
+    border:none;
+height:30px;
+float:left;
+}
+#search-btn{
+height:30px;
+width:40px;
+font-size:18px;
+float:left;
+background:teal;
+display:none;
+border:none;
+}
+
+</style>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><b>TechBasics</b></a>
+          <span id="search-icon" class="navbar-brand glyphicon glyphicon-search" onclick="search()"></span>
+          <span id ="search-box" class="nav navbar-nav navbar-left">
+             <form action="/search" method="get">
+             <input type="text" name="q" placeholder="Search..." id="search-input" class ="form-control" autocomplete="off" required>
+              <button id="search-btn" class="btn btn-info"><span class="glyphicon glyphicon-search"></button>
+            </form>
+        </span>
+       </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a style="color:white" href="/">Home</a></li>
+            <li><a href="/discussion-area">Discussion Forum</a></li>
+            <li><a href="/code-section">Practice Code</a></li>
+             {% if session['user'] %}
+            <li><a href="/add-question">Add Questions</a></li>
+            <li><a href="/add-course">Add Courses</a></li>
+            <li><a href="/admin-panel">Admin Panel</a></li>
+            {% endif %}
+            <li><a href="/roadmap">Road Maps</a></li>
+            <li><a href="/projects">Project Ideas</a></li>
+             <li><a href="/mcqzone">MCQ Zone</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if session['user'] %}
+                <li><a href="#"><span>Welcome!&nbsp;</span>{{session['name']}}</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login-user">Login/Signup</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+  </div>
+  <script>
+      function search()
+      {
+          document.getElementById("search-input").style.transition = "width 1s";
+           document.getElementById("search-input").style.padding="2px";
+          document.getElementById("search-icon").style.display="none";
+          document.getElementById("search-btn").style.display="block";
+          if (screen.width<500)
+          {
+              document.getElementById("search-input").style.width="175px";
+              document.getElementById("search-box").style.position="absolute";
+          }
+          else
+          {
+           document.getElementById("search-input").style.width="250px";
+          }
+
+
+
+      }
+
+  </script>
+</nav>

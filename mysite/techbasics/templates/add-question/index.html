@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/static/css/general.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+#hint-icon
+{
+    background:white;
+    font-style:bold;
+    border-radius:100px;
+    border:2px groove silver;
+}
+#hint-icon a{
+    text-decoration:none;
+}
+#hint{
+    width:270px;
+    height: 200px;
+    display:none;
+    background:white;
+    position:absolute;
+    overflow: auto;
+}
+</style>
+</head>
+<body>
+{% include 'nav.html' %}
+<a href='/add-course'>Wanna create a new course/tutorial?</a>
+  <div class="global-container">
+
+      <div id="hint" onclick="hide()">
+            <h5>General rules:</h5>
+            <ul>
+                <li>Please note all HTML tags are supported so please make sure to escape the char if you need</li>
+                <li>Please use code tag &lt;code&gt;&lt;/code&gt; to write coding examples</li>
+                <li>If you want to highlight any predefind keywords like attributes or method names, you need to write them in keyword tag &lt;keyword&gt;&lt;/keyword&gt;</li>
+                <li>Please avoid making any syntax error or spelling error</li>
+            </ul>
+            <i>Click anywhere to close it</i>
+        </div>
+
+    <h3>Question Entry<span id="hint-icon"><a href="#" onclick="hint()"><b>&nbsp;?&nbsp;</b></a></span></h3>
+    <div class="login-form">
+            <form action="/new-question" method="post">
+
+                <div class="form-group">
+                    <label for="Question">Question</label>
+                    <input type="text" class="form-control form-control-sm" name="question"  placeholder="Question..." spellcheck="true" autocomplete="off" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Answer">Answer</label>
+                    <textarea rows="10" cols="60" name="answer" class="form-control form-control-sm" placeholder="Answer..." autocomplete="off" spellcheck="true" ></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="Question Category</">Question belongs to which category?</</label>
+                    <select name="question-category-id" class="form-control form-control-sm" required>
+                        <option value="">Choose Tutorial</option>
+                         {% for course in courses %}
+                        <option value="{{course.id}}">{{course.course_fullname}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn mybtn">Submit</button>
+            </form>
+        <p style="color:green">{{string1}}</p>
+
+    </div>
+<script>
+    function hint(){
+        document.getElementById("hint").style.display="block";
+        document.getElementById("hint").style.width="100%";
+        document.getElementById("hint").style.height="80%";
+        document.getElementById("hint").style.transition = "all 4s";
+    }
+    function hide(){
+        document.getElementById("hint").style.display="none";
+    }
+</script>
+</body>
+</html>
